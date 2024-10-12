@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<ruleset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd"
+>
+    <arg name="basepath" value="." />
+    <arg name="cache" value=".phpcs.cache" />
+    <arg name="colors" />
+    <arg name="extensions" value="php"/>
+
+    <rule ref="PSR12">
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace" />
+    </rule>
+    <rule ref="Generic.PHP.RequireStrictTypes"/>
+
+    <file>src/</file>
+    <file>tests/</file>
+</ruleset>
