@@ -6,6 +6,7 @@ namespace Novara\Psr7\Stream;
 
 use Error;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 
 abstract class ConstantStream implements StreamInterface
 {
@@ -64,10 +65,12 @@ abstract class ConstantStream implements StreamInterface
 
     public function seek(int $offset, int $whence = SEEK_SET): void
     {
+        throw new RuntimeException('Cannot seek ConstantStream.');
     }
 
     public function rewind(): void
     {
+        throw new RuntimeException('Cannot rewind ConstantStream.');
     }
 
     public function isWritable(): bool
@@ -87,7 +90,7 @@ abstract class ConstantStream implements StreamInterface
 
     public function read(int $length): string
     {
-        return '';
+        return static::safeGetContents();
     }
 
     public function getContents(): string

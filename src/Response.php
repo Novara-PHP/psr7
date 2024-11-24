@@ -6,6 +6,7 @@ namespace Novara\Psr7;
 
 use Alexanderpas\Common\HTTP\ReasonPhrase;
 use Error;
+use InvalidArgumentException;
 use Novara\Base\Novara;
 use Novara\DynamicReadonlyClasses\DRCFactory;
 use Novara\Psr7\Factory\StreamFactory;
@@ -89,34 +90,82 @@ abstract class Response implements ResponseInterface
         return static::HEADERS;
     }
 
+    /**
+     * @noinspection PhpUndefinedClassConstantInspection
+     */
     public function hasHeader(string $name): bool
     {
-        // TODO
+        return isset(static::HEADERS[strtolower(func_get_arg(0))]);
     }
 
+    /**
+     * @noinspection PhpUndefinedClassConstantInspection
+     */
     public function getHeader(string $name): array
     {
-        // TODO: Implement getHeader() method.
+        return static::HEADERS[strtolower(func_get_arg(0))] ?? [];
     }
 
+    /**
+     * @noinspection PhpUndefinedClassConstantInspection
+     */
     public function getHeaderLine(string $name): string
     {
-        // TODO: Implement getHeaderLine() method.
+        return join(', ', static::HEADERS[strtolower(func_get_arg(0))] ?? []);
     }
 
+    /**
+     * @noinspection PhpUndefinedClassConstantInspection
+     */
     public function withHeader(string $name, $value): MessageInterface
     {
-        // TODO: Implement withHeader() method.
+        return self::withConstants(
+            null,
+            null,
+            Novara::Map::replaceKey(
+                static::HEADERS ?? [],
+                strtolower(func_get_arg(0)),
+                is_array(func_get_arg(1)) ? func_get_arg(1) : [func_get_arg(1)],
+            ),
+            null,
+            null,
+        );
     }
 
+    /**
+     * @noinspection PhpUndefinedClassConstantInspection
+     */
     public function withAddedHeader(string $name, $value): MessageInterface
     {
-        // TODO: Implement withAddedHeader() method.
+        return self::withConstants(
+            null,
+            null,
+            Novara::Map::appendToKey(
+                static::HEADERS ?? [],
+                strtolower(func_get_arg(0)),
+                is_array(func_get_arg(1)) ? func_get_arg(1) : [func_get_arg(1)],
+            ),
+            null,
+            null,
+        );
     }
 
+    /**
+     * @noinspection PhpUndefinedClassConstantInspection
+     */
     public function withoutHeader(string $name): MessageInterface
     {
-        // TODO: Implement withoutHeader() method.
+        return self::withConstants(
+            null,
+            null,
+            array_filter(Novara::Map::replaceKey(
+                static::HEADERS ?? [],
+                strtolower(func_get_arg(0)),
+                null,
+            )),
+            null,
+            null,
+        );
     }
 
     /**
@@ -146,9 +195,18 @@ abstract class Response implements ResponseInterface
         return static::STATUS_CODE;
     }
 
+    /**
+     * @noinspection PhpIncompatibleReturnTypeInspection
+     */
     public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface
     {
-        return self::withConstants(
+        return Novara::Exception::throwIf(
+            func_get_arg(0) < 100 || func_get_arg(0) > 599,
+            new InvalidArgumentException(sprintf(
+                'Invalid status code %d.',
+                func_get_arg(0),
+            )),
+        ) ?: self::withConstants(
             func_get_arg(0),
             func_num_args() >= 2 ? func_get_arg(1) : '',
             null,

@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=8.3",
-        "novara/base": "^1.3.1",
+        "novara/base": "^1.5.2",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^2.0",
         "novara/dynamic-readonly-classes": "^1.0.1",

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Novara\Psr7\Factory;
 
 use Novara\DynamicReadonlyClasses\DRCFactory;
@@ -9,8 +11,22 @@ use Psr\Http\Message\StreamInterface;
 
 class StreamFactory implements StreamFactoryInterface
 {
-    public function createStream(string $content = ''): StreamInterface
+    /**
+     * @param string|resource $content
+     */
+    public function createStream(mixed $content = ''): StreamInterface
     {
+        if (is_resource(func_get_arg(0))) {
+            rewind(func_get_arg(0));
+
+            return DRCFactory::create(
+                ConstantStream::class,
+                [
+                    'CONTENTS' => stream_get_contents(func_get_arg(0)),
+                ],
+            );
+        }
+
         return DRCFactory::create(
             ConstantStream::class,
             [
