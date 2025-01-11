@@ -16,7 +16,6 @@ abstract class Uri implements UriInterface
         return (new class () extends Uri {})
             ->withQuery(func_get_arg(0)['query'] ?? '')
             ->withPort(func_get_arg(0)['port'])
-            // TODO: authority :)
             ->withHost(func_get_arg(0)['host'] ?? '')
             ->withPath(func_get_arg(0)['path'] ?? '')
             ->withFragment(func_get_arg(0)['fragment'] ?? '')
@@ -71,7 +70,9 @@ abstract class Uri implements UriInterface
      */
     public function getPath(): string
     {
-        return static::safeGetConstant('PATH') ?? '';
+        return str_starts_with(static::safeGetConstant('PATH') ?? '', '/')
+            ? '/' . ltrim(static::safeGetConstant('PATH') ?? '', '/')
+            : static::safeGetConstant('PATH') ?? '';
     }
 
     /**
@@ -178,7 +179,6 @@ abstract class Uri implements UriInterface
         );
     }
 
-    // TODO: authority?
     public function withUserInfo(string $user, ?string $password = null): UriInterface
     {
         return self::withConstants(
@@ -190,8 +190,8 @@ abstract class Uri implements UriInterface
             null,
             Novara::Call::pass(
                 func_num_args() > 1 && strlen(func_get_arg(1))
-                    ? urlencode(func_get_arg(0)) . ':' . urlencode(func_get_arg(1))
-                    : urlencode(func_get_arg(0)),
+                    ? urlencode(urldecode(func_get_arg(0))) . ':' . urlencode(urldecode(func_get_arg(1)))
+                    : urlencode(urldecode(func_get_arg(0))),
                 fn () => func_get_arg(0) === ':' ? '' : func_get_arg(0),
             ),
         );
@@ -202,7 +202,7 @@ abstract class Uri implements UriInterface
         return (static::safeGetConstant('SCHEME') ?? '')
             . '://'
             . (
-                static::safeGetConstant('USER_INFO') !== null
+                static::safeGetConstant('USER_INFO') !== ''
                     ? static::safeGetConstant('USER_INFO') . '@'
                     : ''
             )
@@ -223,13 +223,6 @@ abstract class Uri implements UriInterface
                     ? '#' . static::safeGetConstant('FRAGMENT')
                     : ''
             );
-
-        /*
-        ->withQuery(func_get_arg(0)['query'] ?? '')
-        // TODO: authority :)
-        ->withFragment(func_get_arg(0)['fragment'] ?? '')
-        return '';
-        */
     }
 
     private static function withConstants(): Uri

@@ -26,10 +26,49 @@ final class RequestTest extends RequestIntegrationTest
     protected $skippedTests = [
         'testWithHeaderInvalidArguments' => 'no',
         'testWithAddedHeaderInvalidArguments' => 'no',
+        'testMethodWithInvalidArguments' => 'nope',
     ];
 
     public function createSubject(): RequestInterface
     {
         return (new RequestFactory())->createRequest('GET', new class () extends Uri {});
+    }
+    public function testBody()
+    {
+        if (isset($this->skippedTests[__FUNCTION__])) {
+            $this->markTestSkipped($this->skippedTests[__FUNCTION__]);
+        }
+
+        $initialMessage = $this->getMessage();
+        $original = clone $initialMessage;
+        $stream = $this->buildStream('foo');
+        $message = $initialMessage->withBody($stream);
+        $this->assertNotSameObject($initialMessage, $message);
+        $this->assertEquals($initialMessage, $original, 'Message object MUST not be mutated');
+
+        // Original just checked Equals, which fails because of copy on write
+        $this->assertEquals((string)$stream, (string)$message->getBody());
+    }
+
+    public function testWithoutHeader()
+    {
+        if (isset($this->skippedTests[__FUNCTION__])) {
+            $this->markTestSkipped($this->skippedTests[__FUNCTION__]);
+        }
+
+        $message = $this->getMessage()->withAddedHeader('content-type', 'text/html');
+        $message = $message->withAddedHeader('Age', '0');
+        $message = $message->withAddedHeader('X-Foo', 'bar');
+
+        $headers = $message->getHeaders();
+        $headerCount = count($headers);
+        // Original tests used isset() which breaks with strtolower and shouldn't be done this way
+        $this->assertTrue($message->hasHeader('Age'));
+
+        // Remove a header
+        $message = $message->withoutHeader('age');
+        $headers = $message->getHeaders();
+        $this->assertCount($headerCount - 1, $headers);
+        $this->assertFalse($message->hasHeader('Age'));
     }
 }

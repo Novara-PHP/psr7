@@ -63,7 +63,7 @@ abstract class Request implements RequestInterface
      */
     public function getRequestTarget(): string
     {
-        return static::safeGetConstant('REQUEST_TARGET') ?? '';
+        return static::safeGetConstant('REQUEST_TARGET') ?? '/';
     }
 
     public function withRequestTarget(string $requestTarget): RequestInterface
@@ -83,7 +83,7 @@ abstract class Request implements RequestInterface
      */
     public function getMethod(): string
     {
-        return static::safeGetConstant('METHOD') ?? '';
+        return static::safeGetConstant('METHOD') ?? 'GET';
     }
 
     public function withMethod(string $method): RequestInterface
@@ -178,8 +178,8 @@ abstract class Request implements RequestInterface
     {
         try {
             return match (func_get_arg(0)) {
-                'REQUEST_TARGET' => static::STATUS_CODE,
-                'METHOD' => static::REASON_PHRASE,
+                'REQUEST_TARGET' => static::REQUEST_TARGET,
+                'METHOD' => static::METHOD,
                 'HEADERS' => static::HEADERS,
                 'BODY' => static::BODY,
                 'PROTOCOL_VERSION' => static::PROTOCOL_VERSION,

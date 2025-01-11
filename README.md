@@ -11,17 +11,24 @@ Copy on write? That's right! This is a PSR-7 and PSR-17 implementation without t
 
 Proper proof that Novara is more than a simple shitpost.
 
-# Installation
+## What is this
+
+It's just like [guzzle/psr7](https://github.com/guzzle/psr7) but without any variables and way less performant.
+
+
+## Installation
 
 ```bash
 composer require novara/psr7
 ```
 
-# Usage
+
+## Usage
 
 Use like any other PSR7 / PSR17 implementation.
 
-# Limitations
+
+## Limitations
 
 ConstantStream is read only and cannot use `seek`, `rewind`, `read`, or any... stream functions.
 

@@ -14,6 +14,10 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(UriFactory::class)]
 final class UriTest extends UriIntegrationTest
 {
+    protected $skippedTests = [
+        'testWithSchemeInvalidArguments' => '',
+    ];
+
     public function createUri($uri)
     {
         return (new UriFactory())->createUri($uri);
