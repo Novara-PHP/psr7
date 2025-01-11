@@ -18,10 +18,11 @@ class UriFactory implements UriFactoryInterface
             fn () => (new class () extends Uri {})
                 ->withScheme(func_get_arg(0)['scheme'] ?? '')
                 ->withHost(func_get_arg(0)['host'] ?? '')
-                ->withPort(func_get_arg(0)['port'])
+                ->withPort(func_get_arg(0)['port'] ?? 80)
                 ->withUserInfo(func_get_arg(0)['user'] ?? '', func_get_arg(0)['pass'] ?? '')
                 ->withPath(func_get_arg(0)['path'] ?? '')
-                ->withQuery(func_get_arg(0)['query'] ?? ''),
+                ->withQuery(func_get_arg(0)['query'] ?? '')
+                ->withFragment(func_get_arg(0)['fragment'] ?? ''),
         );
     }
 }

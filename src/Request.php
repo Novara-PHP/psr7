@@ -54,6 +54,7 @@ abstract class Request implements RequestInterface
             null,
             func_get_arg(0)->getContents(),
             null,
+            null,
         );
     }
 
