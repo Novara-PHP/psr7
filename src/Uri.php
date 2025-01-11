@@ -199,8 +199,11 @@ abstract class Uri implements UriInterface
 
     public function __toString(): string
     {
-        return (static::safeGetConstant('SCHEME') ?? '')
-            . '://'
+        return (
+                static::safeGetConstant('SCHEME') !== ''
+                    ? static::safeGetConstant('SCHEME') . '://'
+                    : ''
+            )
             . (
                 static::safeGetConstant('USER_INFO') !== ''
                     ? static::safeGetConstant('USER_INFO') . '@'

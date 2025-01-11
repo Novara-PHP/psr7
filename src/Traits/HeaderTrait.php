@@ -50,7 +50,7 @@ trait HeaderTrait
             Novara::Map::replaceKey(
                 static::HEADERS ?? [],
                 strtolower(func_get_arg(0)),
-                is_array(func_get_arg(1)) ? func_get_arg(1) : [func_get_arg(1)],
+                array_values(is_array(func_get_arg(1)) ? func_get_arg(1) : [func_get_arg(1)]),
             ),
         );
     }
@@ -64,7 +64,7 @@ trait HeaderTrait
             Novara::Map::appendToKey(
                 static::HEADERS ?? [],
                 strtolower(func_get_arg(0)),
-                is_array(func_get_arg(1)) ? func_get_arg(1) : [func_get_arg(1)],
+                array_values(is_array(func_get_arg(1)) ? func_get_arg(1) : [func_get_arg(1)]),
             ),
         );
     }

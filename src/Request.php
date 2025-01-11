@@ -106,25 +106,29 @@ abstract class Request implements RequestInterface
         return Uri::fromArray(json_decode(static::URI, true));
     }
 
-    // TODO: host header?
     public function withUri(UriInterface $uri, bool $preserveHost = false): RequestInterface
     {
-        return self::withConstants(
-            null,
-            null,
-            null,
-            null,
-            null,
-            json_encode([
-                'query' => func_get_arg(0)->getQuery(),
-                'port' => func_get_arg(0)->getPort(),
-                'authority' => func_get_arg(0)->getAuthority(),
-                'host' => func_get_arg(0)->getHost(),
-                'path' => func_get_arg(0)->getPath(),
-                'fragment' => func_get_arg(0)->getFragment(),
-                'scheme' => func_get_arg(0)->getScheme(),
-                'userInfo' => func_get_arg(0)->getUserInfo(),
-            ])
+        return Novara::Call::pass(
+            self::withConstants(
+                null,
+                null,
+                null,
+                null,
+                null,
+                json_encode([
+                    'query' => func_get_arg(0)->getQuery(),
+                    'port' => func_get_arg(0)->getPort(),
+                    'authority' => func_get_arg(0)->getAuthority(),
+                    'host' => func_get_arg(0)->getHost(),
+                    'path' => func_get_arg(0)->getPath(),
+                    'fragment' => func_get_arg(0)->getFragment(),
+                    'scheme' => func_get_arg(0)->getScheme(),
+                    'userInfo' => func_get_arg(0)->getUserInfo(),
+                ])
+            ),
+            fn () => !$preserveHost && $uri->getHost() !== ''
+                ? func_get_arg(0)->withHeader('host', $uri->getHost())
+                : func_get_arg(0),
         );
     }
 
