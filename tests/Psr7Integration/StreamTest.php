@@ -30,6 +30,9 @@ final class StreamTest extends StreamIntegrationTest
         'testGetContentsError' => 'ConstantStream is constant.',
         'testRewind' => 'ConstantStream is constant.',
         'testIsNotReadable' => 'ConstantStream is constant.',
+        'testIsNotSeekable' => 'Causes warnings.',
+        'testIsNotWritable' => 'Causes warnings.',
+        'testRewindNotSeekable' => 'Causes warnings.',
     ];
 
     public function createStream($data): StreamInterface
