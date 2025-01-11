@@ -126,7 +126,8 @@ abstract class Request implements RequestInterface
                     'userInfo' => func_get_arg(0)->getUserInfo(),
                 ])
             ),
-            fn () => !$preserveHost && $uri->getHost() !== ''
+            // TODO: set request target
+            fn () => (empty(func_get_arg(0)->getHeaders()['host']) || !$preserveHost) && $uri->getHost() !== ''
                 ? func_get_arg(0)->withHeader('host', $uri->getHost())
                 : func_get_arg(0),
         );

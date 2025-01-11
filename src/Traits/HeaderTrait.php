@@ -14,7 +14,7 @@ trait HeaderTrait
      */
     public function getHeaders(): array
     {
-        return static::HEADERS;
+        return static::HEADERS ?? [];
     }
 
     /**
