@@ -9,6 +9,7 @@ use Novara\Psr7\Factory\RequestFactory;
 use Novara\Psr7\Factory\StreamFactory;
 use Novara\Psr7\Factory\UriFactory;
 use Novara\Psr7\Request;
+use Novara\Psr7\Stream\ConstantStream;
 use Novara\Psr7\Uri;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -21,6 +22,8 @@ define('URI_FACTORY', UriFactory::class);
 #[UsesClass(RequestFactory::class)]
 #[UsesClass(Uri::class)]
 #[UsesClass(UriFactory::class)]
+#[UsesClass(StreamFactory::class)]
+#[UsesClass(ConstantStream::class)]
 final class RequestTest extends RequestIntegrationTest
 {
     protected $skippedTests = [

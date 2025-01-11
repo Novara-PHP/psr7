@@ -4,12 +4,16 @@ namespace Novara\Psr7\Tests\Factory;
 
 use Novara\Psr7\Factory\ResponseFactory;
 use Novara\Psr7\Factory\StreamFactory;
+use Novara\Psr7\Response;
+use Novara\Psr7\Stream\ConstantStream;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(ResponseFactory::class)]
 #[UsesClass(StreamFactory::class)]
+#[UsesClass(Response::class)]
+#[UsesClass(ConstantStream::class)]
 final class ResponseFactoryTest extends TestCase
 {
     public function test(): void
