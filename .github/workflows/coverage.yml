@@ -1,7 +1,5 @@
 name: tests
 
-# TODO: https://docs.github.com/en/actions/sharing-automations/reusing-workflows
-
 on:
     push:
         branches: [ 'main' ]

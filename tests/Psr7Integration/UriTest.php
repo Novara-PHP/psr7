@@ -18,6 +18,9 @@ final class UriTest extends UriIntegrationTest
         'testWithSchemeInvalidArguments' => '',
     ];
 
+    /**
+     * @noinspection PhpMissingReturnTypeInspection
+     */
     public function createUri($uri)
     {
         return (new UriFactory())->createUri($uri);
