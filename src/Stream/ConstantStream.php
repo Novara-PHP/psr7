@@ -58,6 +58,15 @@ abstract class ConstantStream implements StreamInterface
         return false;
     }
 
+    /**
+     * Impossible to be stateless.
+     *
+     * Due to seek() and rewind() returning void,
+     * it is impossible to even simulate seeking with substrings,
+     * since you cannot return a DRC instance.
+     *
+     * @see https://github.com/Novara-PHP/psr7/issues/1
+     */
     public function isSeekable(): bool
     {
         return false;
