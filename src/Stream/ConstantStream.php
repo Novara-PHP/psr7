@@ -98,6 +98,9 @@ abstract class ConstantStream implements StreamInterface
         return static::safeGetContents();
     }
 
+    /**
+     * @noinspection PhpMissingReturnTypeInspection
+     */
     public function getMetadata(?string $key = null)
     {
         return null;

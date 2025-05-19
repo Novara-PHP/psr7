@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Novara\Psr7\Tests\Factory;
 
 use Novara\Psr7\Factory\ResponseFactory;

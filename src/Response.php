@@ -62,7 +62,7 @@ abstract class Response implements ResponseInterface
      */
     public function getStatusCode(): int
     {
-        return static::safeGetConstant('STATUS_CODE') ?? '';
+        return static::safeGetConstant('STATUS_CODE') ?? 200;
     }
 
     /**
